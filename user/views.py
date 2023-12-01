@@ -1,10 +1,12 @@
 import logging
 import traceback
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 from rest_framework import views, generics
 from rest_framework.authtoken.models import Token
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -13,6 +15,12 @@ from user.models import User
 from user.serializers import UserSerializer, LoginSerializer
 
 logger = logging.getLogger(__name__)
+
+
+class GetUsersView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class ProfileCreate(views.APIView):
@@ -87,7 +95,6 @@ class UpdateProfileView(views.APIView):
 
     def post(self, request):
         user = self.request.user
-
         username = self.request.data.get("username")
         email = self.request.data.get("email")
         firstName = self.request.data.get("firstName")
@@ -137,6 +144,16 @@ class UpdateProfileView(views.APIView):
         user.save()
 
         return JsonResponse(data, status=202)
+
+
+class UpdateUserView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'id'
+
+class DeleteUserView(generics.DestroyAPIView):
+    queryset = get_user_model().objects.all()
+    lookup_field = 'id'
 
 
 class UpdatePasswordView(views.APIView):
