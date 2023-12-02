@@ -76,6 +76,7 @@ class LoginView(generics.CreateAPIView):
             pwd_valid = check_password(password, user.password)
             if pwd_valid:
                 data = {
+                    "id": user.id,
                     "token":user.auth_token.key,
                     "username":user.username,
                     "email":user.email,
