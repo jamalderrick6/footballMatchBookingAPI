@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^', include('user.urls')),
     re_path(r'^', include('game.urls')),
+    re_path(r'^', include('news.urls')),
 ]
