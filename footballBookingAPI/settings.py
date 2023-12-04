@@ -10,20 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# Initialise environment variables
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1ou!ym-6h45y*z9)rhdjmk%hs5ttzfs^s)2-z#0v+(z2!i&tg='
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-STRIPE_SECRET_KEY = 'sk_test_0iDvBKsmagSASseghtBCf5w900LZN7ziUp'
-STRIPE_WEBHOOK_SECRET = 'whsec_29adffe4b39380a2f3c997236a5af7c3f4c90b1cf5aec7dd8bd3f26d27f8d478'
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
